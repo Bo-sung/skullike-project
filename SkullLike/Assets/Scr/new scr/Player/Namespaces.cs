@@ -1,5 +1,4 @@
 ﻿
-using Statuses;
 using UnityEngine;
 using System;
 using System.Collections.Generic;
@@ -12,6 +11,7 @@ namespace MyData
 {
     namespace PlayerScr
     {
+        using Data;
         public interface IPlayer
         {
             void Move_Right();//현제 위치에서 우측으로 이동
@@ -20,8 +20,8 @@ namespace MyData
             void Crouch();//수구리기
             void Move_Stop();
             void Skill(int _skillNum);//스킬사용(인덱스)
-            void Attack(GameObject _target, int _atktype);//공격. 데미지를 리턴함
-            void Attacked(float _damage);//공격받음(데미지). 데미지를 입력받아 현제 스텟에 따른 피해량을 저장
+            void Attack(GameObject _bullet, Attack_info _Atk_Info);//공격. 데미지를 리턴함
+            void Attacked(Attack_info _Atk_Info);//공격받음(데미지). 데미지를 입력받아 현제 스텟에 따른 피해량을 저장
         }
         [Serializable]
         public struct State     //상태
@@ -58,10 +58,12 @@ namespace MyData
             public float DEF;
             public float stamina;
             public float stamina_time;
+            public float attack_Speed;
         }
         [Serializable]
         public struct Inventory
         {
+            [Serializable]
             public struct GemInventory
             {
                 public GameObject HeadGem;
@@ -70,12 +72,14 @@ namespace MyData
                 public GameObject WeaponGem;
                 public GameObject ShoesGem;
             }
+            [Serializable]
             public struct etc_inventory
             {
                 public List<GameObject> Inventory;
             }
 
         }
+
         //현제 상태 지정용 열거형들.
         public enum Mov { Stand, Jump, Crouch, Hang };//이동 상황
         public enum Dir { Left, Right, Up};//방향
@@ -83,7 +87,7 @@ namespace MyData
     }
     namespace Item
     {
-        public enum equipmentSpace { Head, Body, Bottom, Weapon, Shoes, etc};
+        public enum Slot { Head, Body, Bottom, Weapon, Shoes, etc};
         public interface IItem
         {
             bool IsEquipable();//장착 가능 여부
@@ -95,10 +99,26 @@ namespace MyData
         [Serializable]
         public struct ItemState
         {
-            public equipmentSpace Part;//착용부위
+            public Slot Part;//착용부위
             public int Rare;// 레어도
             public List<float> stat;//레어도에 따른 고정스텟 수
         }
     }
+    namespace Data
+    {
+        using PlayerScr;
+        public enum Effects {normal,burn,blind,bleeding,slow }
+        public struct Attack_info
+        {
+            public float ATk;
+            public float attribute;
+            public Effects effect;
+            public Dir direction;
+            public float Attack_Range;
+            public float Attack_Speed;
+        }
+
+    }
+
 }
 

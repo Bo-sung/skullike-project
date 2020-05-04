@@ -54,7 +54,7 @@ public class allKeyInputDelegate : MonoBehaviour
         };
 
     }
-    private void KeyDown_Q() { }
+    private void KeyDown_Q() { player.Melee_Attack(); }
     private void KeyDown_W() { }
     private void KeyDown_E() { }
     private void KeyDown_R() { }
@@ -103,13 +103,13 @@ public class allKeyInputDelegate : MonoBehaviour
                     dic.Value();
                 }
             }
-            //foreach (var dic in keyUpDictionary)
-            //{
-            //    if (Input.GetKey(dic.Key))
-            //    {
-            //        dic.Value();
-            //    }
-            //}
+            foreach (var dic in keyUpDictionary)
+            {
+                if (Input.GetKeyUp(dic.Key))
+                {
+                    dic.Value();
+                }
+            }
         }
     }
 }
