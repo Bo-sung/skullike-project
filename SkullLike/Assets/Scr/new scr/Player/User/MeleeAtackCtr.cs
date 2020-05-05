@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using MyData.Data;
+using MyData.PlayerScr;
 
 public class MeleeAtackCtr : MonoBehaviour {
 
@@ -25,5 +25,12 @@ public class MeleeAtackCtr : MonoBehaviour {
         rd.enabled = true;
         atk_info = _atk_info;
         StartCoroutine(WaitForAttack(atk_info.Attack_Speed));
+    }
+    private void OnTriggerEnter2D(Collider2D col)
+    {
+        if(col.transform.tag == "Enemy")
+        {
+            col.SendMessage("Attacked", atk_info);
+        }
     }
 }

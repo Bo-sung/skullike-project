@@ -12,7 +12,6 @@ public class Bullet : MonoBehaviour {
     public void Fire(Attack_info _info)
     {
         info = _info;
-        Debug.Log(_info.direction.ToString());
         atkSpeed = info.Attack_Speed;
         
     }

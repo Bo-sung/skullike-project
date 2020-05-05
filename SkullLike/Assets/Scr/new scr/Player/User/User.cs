@@ -17,24 +17,45 @@ namespace PlayerScr
         public List<GameObject> effectList;
 
 
-        public void Set_Ani(Animator _ani, Mov _Move, Sta _State)//애니메이션 변경용.
-        {//에니메이션 변환과정에서 같은값을 입력받을시 애니메이션이 반복이 되어 중간에 갭이 생김. 중복되지 않도록해주어야함
-            if (_ani.GetInteger("Mov") != (int)_Move || _ani.GetInteger("Sta") != (int)_State)
+        public void Set_Ani(Animator _ani)//애니메이션 변경용.
+        {
+            ani.Update(1);
+        }
+        public void Set_Ani(Animator _ani, Mov _Move)//애니메이션 변경용.
+        {
+            if (_ani.GetInteger("Mov") != (int)_Move)
             {
                 _ani.SetInteger("Mov", (int)_Move);
-                _ani.SetInteger("Sta", (int)_State);
-                _ani.Update(1);
+                ani.Update(1);
             }
-        }       
+        }
+        public void Set_Ani(Animator _ani, Sta _State)//애니메이션 변경용.
+        {
+            if (_ani.GetInteger("Sta") != (int)_State)
+            {
+                _ani.SetInteger("Sta", (int)_State);
+                ani.Update(1);
+            }
+        }
+        public void Set_Ani(Animator _ani, Mov _Move, Sta _State)//애니메이션 변경용.
+        {//에니메이션 변환과정에서 같은값을 입력받을시 애니메이션이 반복이 되어 중간에 갭이 생김. 중복되지 않도록해주어야함
+            if (_ani.GetInteger("Sta") != (int)_State)
+            {
+                _ani.SetInteger("Sta", (int)_State);
+                ani.Update(1);
+            }
+            if (_ani.GetInteger("Mov") != (int)_Move)
+            {
+                _ani.SetInteger("Mov", (int)_Move);
+                ani.Update(1);
+            }
+        }
         [Header("Player - Status")]
         public State state;     //행동상태
         public Status stat;     //스텟
         public Inventory inventory; //인벤토리
-        public GameObject Mag;
-        public GameObject meleeAttackCtr;
-
-        private float attackSpeedTimer;
-
+        public GameObject Mag;      //원거리용 오브젝트 풀
+        public GameObject meleeAttackCtr;   //근거리 공격용
 
         [HideInInspector] public Rigidbody2D rb;
         [HideInInspector] public Animator ani;
@@ -68,8 +89,8 @@ namespace PlayerScr
                 state.Work = Sta.Attack;
                 Attack_info info = new Attack_info();
                 info.ATk = stat.power;
-                info.direction = state.Dir;
                 info.effect = Effects.normal;
+                info.Attack_Speed = stat.attack_Speed;
                 Attack(meleeAttackCtr, info);
                 StartCoroutine(WaitForAttack());
             }
@@ -120,7 +141,6 @@ namespace PlayerScr
         public void Move_Stop()
         {
             state.Work = Sta.idle;
-            state.Standing = Mov.Stand;
         }
         public void HangJump()
         {
@@ -141,7 +161,6 @@ namespace PlayerScr
             if(Input.GetKeyUp(KeyCode.LeftArrow) || Input.GetKeyUp(KeyCode.RightArrow))
             {
                 state.Work = Sta.idle;
-                state.Standing = Mov.Stand;
             }
             if (state.death == true)
             {

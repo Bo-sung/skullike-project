@@ -78,6 +78,16 @@ namespace MyData
                 public List<GameObject> Inventory;
             }
 
+        }        
+        public enum Effects { normal, burn, blind, bleeding, slow }
+        public struct Attack_info
+        {
+            public float ATk;
+            public float attribute;
+            public Effects effect;
+            public Dir direction;
+            public float Attack_Range;
+            public float Attack_Speed;
         }
 
         //현제 상태 지정용 열거형들.
@@ -106,17 +116,6 @@ namespace MyData
     }
     namespace Data
     {
-        using PlayerScr;
-        public enum Effects {normal,burn,blind,bleeding,slow }
-        public struct Attack_info
-        {
-            public float ATk;
-            public float attribute;
-            public Effects effect;
-            public Dir direction;
-            public float Attack_Range;
-            public float Attack_Speed;
-        }
 
     }
 
