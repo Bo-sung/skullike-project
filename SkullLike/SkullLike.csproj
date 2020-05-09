@@ -232,6 +232,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\fog.cs" />
+    <Compile Include="Assets\fog_Elements.cs" />
     <Compile Include="Assets\Scr\legacy\Blocks\CBlock.cs" />
     <Compile Include="Assets\Scr\legacy\Blocks\CBlock_child.cs" />
     <Compile Include="Assets\Scr\legacy\CamScr\CamMove.cs" />
@@ -249,6 +251,7 @@
     <Compile Include="Assets\Scr\legacy\mary\CMon.cs" />
     <Compile Include="Assets\Scr\legacy\UI\CCam.cs" />
     <Compile Include="Assets\Scr\legacy\UI\CUI.cs" />
+    <Compile Include="Assets\Scr\new scr\FogOfWarCtr.cs" />
     <Compile Include="Assets\Scr\new scr\main\allKeyInputDelegate.cs" />
     <Compile Include="Assets\Scr\new scr\main\DragMap.cs" />
     <Compile Include="Assets\Scr\new scr\main\Ground.cs" />

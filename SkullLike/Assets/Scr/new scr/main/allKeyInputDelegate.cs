@@ -9,7 +9,6 @@ public class allKeyInputDelegate : MonoBehaviour
 {
     Dictionary<KeyCode, Action> keyDownDictionary;
     Dictionary<KeyCode, Action> keyUpDictionary;
-    private string state;
     [Header("Object")]
     public User player;
     public GameObject UI;
@@ -68,7 +67,7 @@ public class allKeyInputDelegate : MonoBehaviour
     private void KeyDown_V() { }
     private void KeyDown_Space() { player.Jump(); }
     private void KeyDown_UpArrow() { }
-    private void KeyDown_DownArrow() { }
+    private void KeyDown_DownArrow() { player.Crouch(); }
     private void KeyDown_LeftArrow() { player.Move_Left(); }
     private void KeyDown_RightArrow() { player.Move_Right(); }
     
@@ -86,7 +85,7 @@ public class allKeyInputDelegate : MonoBehaviour
     private void KeyUp_V() { }
     private void KeyUp_Space() {  }
     private void KeyUp_UpArrow() { }
-    private void KeyUp_DownArrow() { }
+    private void KeyUp_DownArrow() {  }
     private void KeyUp_LeftArrow() { player.Move_Stop(); }
     private void KeyUp_RightArrow() { player.Move_Stop(); }
 

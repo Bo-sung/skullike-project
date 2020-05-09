@@ -107,9 +107,10 @@ namespace PlayerScr
         {            
             if (state.Standing != Mov.Jump)
             {
-                rb.velocity = new Vector2(0, stat.jump);
                 state.Standing = Mov.Jump;
                 state.Work = Sta.idle;
+                Set_Ani(ani, state.Standing, state.Work);
+                rb.velocity = new Vector2(0, stat.jump);
             }
         }
         public void Move_Right()    //우측 이동시 호출될 함수
@@ -121,7 +122,6 @@ namespace PlayerScr
             scale.x = Mathf.Abs(scale.x);
             transform.localScale = scale;
             transform.Translate(Vector3.right * stat.speed * Time.deltaTime);
-            
         }
         public void Move_Left() //좌측 이동시 호출될 함수
         {
@@ -135,8 +135,9 @@ namespace PlayerScr
         }
         public void Crouch()    //웅크리기 시행시 호출될 함수
         {
-            state.Work = Sta.idle;
-            state.Standing = Mov.Crouch;
+            //state.Work = Sta.idle;
+            //state.Standing = Mov.Crouch;
+            //transform.localScale =  new Vector3(1, 0.5f, 2);
         }
         public void Move_Stop()
         {
@@ -144,7 +145,7 @@ namespace PlayerScr
         }
         public void HangJump()
         {
-            Jump();
+            //Jump();
             if (state.Standing != Mov.Jump)
             {
                 state.Work = Sta.idle;
@@ -160,7 +161,8 @@ namespace PlayerScr
         {
             if(Input.GetKeyUp(KeyCode.LeftArrow) || Input.GetKeyUp(KeyCode.RightArrow))
             {
-                state.Work = Sta.idle;
+                if(state.Work != Sta.Attack)
+                    state.Work = Sta.idle;
             }
             if (state.death == true)
             {
@@ -173,8 +175,8 @@ namespace PlayerScr
         public void OnCollisionEnter2D(Collision2D col)
         {
             if (col.transform.tag == "GROUND")
-            {
-                if (state.Standing == Mov.Jump)
+            {                
+                if (state.Standing == Mov.Jump || state.Standing == Mov.Hang)
                 {
                     state.Work = Sta.idle;
                     state.Standing = Mov.Stand;

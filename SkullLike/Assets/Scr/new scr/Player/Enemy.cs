@@ -75,8 +75,16 @@ namespace scr.PlayerScr
         {
             state.Work = Sta.idle;
         }
-        public void Jump()//점프
-        { }
+        public void Jump()  //점프
+        {
+            if (state.Standing != Mov.Jump)
+            {
+                state.Standing = Mov.Jump;
+                state.Work = Sta.idle;
+                Set_Ani(ani, state.Standing, state.Work);
+                rb.velocity = new Vector2(0, stat.jump);
+            }
+        }
         public void Crouch()//수구리기
         { }
 
@@ -117,9 +125,22 @@ namespace scr.PlayerScr
         }
         private void Update()
         {
+            Jump();
             if(stat.HP <= 0)
             {
                 Destroy(gameObject);
+            }
+        }
+
+        public void OnCollisionEnter2D(Collision2D col)
+        {
+            if (col.transform.tag == "GROUND")
+            {
+                if (state.Standing == Mov.Jump || state.Standing == Mov.Hang)
+                {
+                    state.Work = Sta.idle;
+                    state.Standing = Mov.Stand;
+                }
             }
         }
     }
