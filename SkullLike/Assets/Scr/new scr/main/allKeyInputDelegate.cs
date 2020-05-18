@@ -19,16 +19,19 @@ public class allKeyInputDelegate : MonoBehaviour
     {        
         keyDownDictionary = new Dictionary<KeyCode, Action>
         {
+            { KeyCode.Q, KeyDown_Q },
+            { KeyCode.W, KeyDown_W },
+            { KeyCode.E, KeyDown_E },
+            { KeyCode.R, KeyDown_R },
             { KeyCode.A, KeyDown_A },
             { KeyCode.S, KeyDown_S },
             { KeyCode.D, KeyDown_D },
-            { KeyCode.W, KeyDown_W },
-            { KeyCode.Space, KeyDown_Space },
-            { KeyCode.C, KeyDown_C },
-            { KeyCode.Q, KeyDown_Q },
-            { KeyCode.E, KeyDown_E },
-            { KeyCode.R, KeyDown_R },
+            { KeyCode.F, KeyDown_F },
             { KeyCode.Z, KeyDown_Z },
+            { KeyCode.X, KeyDown_X },
+            { KeyCode.C, KeyDown_C },
+            { KeyCode.V, KeyDown_V },
+            { KeyCode.Space, KeyDown_Space },
             { KeyCode.UpArrow, KeyDown_UpArrow },
             { KeyCode.DownArrow, KeyDown_DownArrow },
             { KeyCode.LeftArrow, KeyDown_LeftArrow },
@@ -36,16 +39,19 @@ public class allKeyInputDelegate : MonoBehaviour
         };
         keyUpDictionary = new Dictionary<KeyCode, Action>
         {
+            { KeyCode.Q, KeyUp_Q },
+            { KeyCode.W, KeyUp_W },
+            { KeyCode.E, KeyUp_E },
+            { KeyCode.R, KeyUp_R },
             { KeyCode.A, KeyUp_A },
             { KeyCode.S, KeyUp_S },
             { KeyCode.D, KeyUp_D },
-            { KeyCode.W, KeyUp_W },
-            { KeyCode.Space, KeyUp_Space },
-            { KeyCode.C, KeyUp_C },
-            { KeyCode.Q, KeyUp_Q },
-            { KeyCode.E, KeyUp_E },
-            { KeyCode.R, KeyUp_R },
+            { KeyCode.F, KeyUp_F },
             { KeyCode.Z, KeyUp_Z },
+            { KeyCode.X, KeyUp_X },
+            { KeyCode.C, KeyUp_C },
+            { KeyCode.V, KeyUp_V },
+            { KeyCode.Space, KeyUp_Space },
             { KeyCode.UpArrow, KeyUp_UpArrow },
             { KeyCode.DownArrow, KeyUp_DownArrow },
             { KeyCode.LeftArrow, KeyUp_LeftArrow },
@@ -53,21 +59,21 @@ public class allKeyInputDelegate : MonoBehaviour
         };
 
     }
-    private void KeyDown_Q() { player.Melee_Attack(); }
+    private void KeyDown_Q() {  }
     private void KeyDown_W() { }
     private void KeyDown_E() { }
     private void KeyDown_R() { }
-    private void KeyDown_A() { }
-    private void KeyDown_S() { }
+    private void KeyDown_A() { player.Skill(1); }
+    private void KeyDown_S() { player.Skill(2); }
     private void KeyDown_D() { }
     private void KeyDown_F() { }
-    private void KeyDown_Z() { }
-    private void KeyDown_X() { }
-    private void KeyDown_C() { }
+    private void KeyDown_Z() { player.Dash(); }
+    private void KeyDown_X() { player.Melee_Attack(); }
+    private void KeyDown_C() { player.Jump(); }
     private void KeyDown_V() { }
-    private void KeyDown_Space() { player.Jump(); }
+    private void KeyDown_Space() { }
     private void KeyDown_UpArrow() { }
-    private void KeyDown_DownArrow() { player.Crouch(); }
+    private void KeyDown_DownArrow() { }
     private void KeyDown_LeftArrow() { player.Move_Left(); }
     private void KeyDown_RightArrow() { player.Move_Right(); }
     

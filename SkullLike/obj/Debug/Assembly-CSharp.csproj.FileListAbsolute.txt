@@ -1,0 +1,2 @@
+D:\skullike-project\SkullLike\obj\Debug\Assembly-CSharp.csprojAssemblyReference.cache
+D:\skullike-project\SkullLike\obj\Debug\Assembly-CSharp.csproj.CoreCompileInputs.cache

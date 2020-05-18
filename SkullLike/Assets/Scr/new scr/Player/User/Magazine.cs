@@ -5,6 +5,7 @@ using MyData.PlayerScr;
 using MyData.Data;
 
 public class Magazine : MonoBehaviour {
+    public GameObject Bullet;
     public List<GameObject> magazine;
     public float atkRange;
     public float atkSpeed;
@@ -20,6 +21,14 @@ public class Magazine : MonoBehaviour {
                 bullet.SendMessage("Fire", _Atk_Info);
                 return;
             }
+        }
+    }
+    void Awake()
+    {
+        for(int i = 0; i < magazine.Count; ++i)
+        {
+            GameObject bullet = Instantiate(Bullet, transform);
+            magazine[i] = bullet;
         }
     }
 }

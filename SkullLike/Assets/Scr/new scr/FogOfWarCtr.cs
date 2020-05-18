@@ -25,7 +25,7 @@ public class FogOfWarCtr : MonoBehaviour
     private void Update()
     {
         Ray r = new Ray(transform.position, m_player.position - transform.position);
-        RaycastHit hit = Physics.Raycast(transform.position, transform.forward)
+        RaycastHit hit;
         if (Physics.Raycast(r, out hit, 1000, m_fogLayer, QueryTriggerInteraction.Collide))
         {
             for (int i = 0; i < m_vertices.Length; i++)

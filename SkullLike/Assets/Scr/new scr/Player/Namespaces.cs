@@ -17,12 +17,40 @@ namespace MyData
             void Move_Right();//현제 위치에서 우측으로 이동
             void Move_Left();//현제 위치에서 좌측으로 이동
             void Jump();//점프
-            void Crouch();//수구리기
             void Move_Stop();
             void Skill(int _skillNum);//스킬사용(인덱스)
             void Attack(GameObject _bullet, Attack_info _Atk_Info);//공격. 데미지를 리턴함
             void Attacked(Attack_info _Atk_Info);//공격받음(데미지). 데미지를 입력받아 현제 스텟에 따른 피해량을 저장
         }
+        public interface IUser : IPlayer
+        {
+            void Dash();
+            void DownJump();//아래점프
+            void Melee_Attack();//근접공격
+        }
+        public class Skill : MonoBehaviour
+        {
+            private Attack_info m_attack_Info;
+            public void InitInformation(Attack_info _attack_Info)
+            {
+                m_attack_Info = _attack_Info;
+            }
+            public Attack_info GetAttack_Info()
+            {
+                return m_attack_Info;
+            }
+
+            public virtual void Passive()
+            {
+
+            }
+            public virtual void Active()
+            {
+
+            }
+        }
+
+
         [Serializable]
         public struct State     //상태
         {
@@ -56,8 +84,7 @@ namespace MyData
             public float speed;
             public float HP;
             public float DEF;
-            public float stamina;
-            public float stamina_time;
+            public float attack_Range;
             public float attack_Speed;
         }
         [Serializable]

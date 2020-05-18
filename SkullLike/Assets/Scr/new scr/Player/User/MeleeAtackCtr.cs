@@ -21,9 +21,10 @@ public class MeleeAtackCtr : MonoBehaviour {
     }
     public void Fire(Attack_info _atk_info)
     {
+        atk_info = _atk_info;
         col2D.enabled = true;
         rd.enabled = true;
-        atk_info = _atk_info;
+        transform.localScale = new Vector3(_atk_info.Attack_Range, transform.localScale.y, 1);
         StartCoroutine(WaitForAttack(atk_info.Attack_Speed));
     }
     private void OnTriggerEnter2D(Collider2D col)
