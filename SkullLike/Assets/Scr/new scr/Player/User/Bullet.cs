@@ -2,35 +2,35 @@
 using System.Collections.Generic;
 using UnityEngine;
 using MyData.Data;
-using MyData.PlayerScr;
+using PlayerScr;
 
 public class Bullet : MonoBehaviour {
-    private Attack_info info;
-    private float atkSpeed;
-    Dir direction;
-    float Lifecycle;
-    public void Fire(Attack_info _info)
+    private AttackInfo m_info;
+    private float _atkSpeed;
+    Dir _direction;
+    float _lifecycle;
+    public void Fire(AttackInfo _info)
     {
-        info = _info;
-        atkSpeed = info.Attack_Speed;
+        this.m_info = _info;
+        _atkSpeed = this.m_info.AttackSpeed;
         
     }
     private void Update()
     {
         if(isActiveAndEnabled)
         {
-                transform.Translate(Vector2.right * atkSpeed * Time.deltaTime);
-            if(transform.localPosition.x >= info.Attack_Range || transform.localPosition.x <= -info.Attack_Range)
+                transform.Translate(_atkSpeed * Time.deltaTime * Vector2.right);
+            if(transform.localPosition.x >= m_info.AttackRange || transform.localPosition.x <= -m_info.AttackRange)
             {
                 transform.localPosition = new Vector2(0, 0);
                 gameObject.SetActive(false);
-                info = new Attack_info();
+                m_info = new AttackInfo();
             }
         }
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.transform.tag == "Enemy")
+        if (collision.transform.CompareTag("Enemy"))
         {
 
         }

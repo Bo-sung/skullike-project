@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ContentModelStore">
+    <e p="C:\Users\sbss0\.Rider2019.1\system\extResources" t="IncludeRecursive" />
+    <e p="C:\Users\sbss0\.Rider2019.1\system\resharper-host\local\Transient\ReSharperHost\v191\SolutionCaches\_SkullLike.1571892124.00" t="ExcludeRecursive" />
+    <e p="D:\skullike-project\SkullLike" t="IncludeRecursive">
+      <e p="Assembly-CSharp.csproj" t="IncludeRecursive" />
+      <e p="Assets\fog.cs" t="Include" />
+      <e p="Assets\fog_Elements.cs" t="Include" />
+      <e p="Assets\Scr" t="Include">
+        <e p="legacy" t="Include">
+          <e p="Blocks" t="Include">
+            <e p="CBlock.cs" t="Include" />
+            <e p="CBlock_child.cs" t="Include" />
+          </e>
+          <e p="CamScr" t="Include">
+            <e p="CamMove.cs" t="Include" />
+            <e p="FirstView.cs" t="Include" />
+            <e p="ThirdView.cs" t="Include" />
+            <e p="TopView.cs" t="Include" />
+          </e>
+          <e p="CAttack_legacy.cs" t="Include" />
+          <e p="Class1.cs" t="Include" />
+          <e p="CMain_legacy.cs" t="Include" />
+          <e p="CMary_legacy.cs" t="Include" />
+          <e p="CMon_legacy.cs" t="Include" />
+          <e p="Main" t="Include">
+            <e p="CMain.cs" t="Include" />
+          </e>
+          <e p="mary" t="Include">
+            <e p="CAttack.cs" t="Include" />
+            <e p="CMary.cs" t="Include" />
+            <e p="CMon.cs" t="Include" />
+          </e>
+          <e p="UI" t="Include">
+            <e p="CCam.cs" t="Include" />
+            <e p="CUI.cs" t="Include" />
+          </e>
+        </e>
+        <e p="new scr" t="Include">
+          <e p="Camera" t="Include">
+            <e p="CameraCtr.cs" t="Include" />
+          </e>
+          <e p="FogOfWarCtr.cs" t="Include" />
+          <e p="Main" t="Include">
+            <e p="allKeyInputDelegate.cs" t="Include" />
+            <e p="DragMap.cs" t="Include" />
+            <e p="Ground.cs" t="Include" />
+            <e p="GroundContainer.cs" t="Include" />
+            <e p="MessageHandler.cs" t="Include" />
+          </e>
+          <e p="Map" t="Include">
+            <e p="GateCtr.cs" t="Include" />
+            <e p="NextMap.cs" t="Include" />
+          </e>
+          <e p="Player" t="Include">
+            <e p="Mob" t="Include">
+              <e p="Enemy.cs" t="Include" />
+              <e p="Sight.cs" t="Include" />
+            </e>
+            <e p="ObjectPulling.cs" t="Include" />
+            <e p="PlayerScr.cs" t="Include" />
+            <e p="User" t="Include">
+              <e p="Bullet.cs" t="Include" />
+              <e p="HangOn.cs" t="Include" />
+              <e p="LittleBone" t="Include">
+                <e p="LittleBone_Skill1.cs" t="Include" />
+                <e p="LittleBone_Skill2.cs" t="Include" />
+                <e p="LittleBoneCtr.cs" t="Include" />
+                <e p="LittleBoneHead.cs" t="Include" />
+              </e>
+              <e p="Magazine.cs" t="Include" />
+              <e p="MeleeAtackCtr.cs" t="Include" />
+              <e p="User.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+      </e>
+      <e p="obj" t="ExcludeRecursive" />
+      <e p="packages" t="ExcludeRecursive" />
+      <e p="SkullLike.sln" t="IncludeFlat" />
+      <e p="Temp\bin" t="ExcludeRecursive" />
+    </e>
+  </component>
+</project>

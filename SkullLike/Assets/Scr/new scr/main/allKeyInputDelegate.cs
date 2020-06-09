@@ -7,11 +7,41 @@ using PlayerScr;
 
 public class allKeyInputDelegate : MonoBehaviour
 {
+    private static allKeyInputDelegate instance;
+    public static allKeyInputDelegate Instance
+    {
+        get
+        {
+            if (instance == null)
+            {
+                var obj = FindObjectOfType<allKeyInputDelegate>();
+                if (obj != null)
+                {
+                    instance = obj;
+                }
+                else
+                {
+                    var newSingleton = new GameObject("Gamemanager").AddComponent<allKeyInputDelegate>();
+                    instance = newSingleton;
+                }
+                
+            }
+            return instance;
+        }
+        private set { instance = value; }
+    }
+
+    private void Awake()
+    {
+        DontDestroyOnLoad(gameObject);
+    }
     Dictionary<KeyCode, Action> keyDownDictionary;
     Dictionary<KeyCode, Action> keyUpDictionary;
+    Dictionary<KeyCode, Action> keyDictionary;
     [Header("Object")]
     public User player;
     public GameObject UI;
+    public GateCtr Gate;
 
 
     // Start is called before the first frame update
@@ -57,6 +87,26 @@ public class allKeyInputDelegate : MonoBehaviour
             { KeyCode.LeftArrow, KeyUp_LeftArrow },
             { KeyCode.RightArrow, KeyUp_RightArrow },
         };
+        keyDictionary = new Dictionary<KeyCode, Action>
+        {
+            { KeyCode.Q, Key_Q },
+            { KeyCode.W, Key_W },
+            { KeyCode.E, Key_E },
+            { KeyCode.R, Key_R },
+            { KeyCode.A, Key_A },
+            { KeyCode.S, Key_S },
+            { KeyCode.D, Key_D },
+            { KeyCode.F, Key_F },
+            { KeyCode.Z, Key_Z },
+            { KeyCode.X, Key_X },
+            { KeyCode.C, Key_C },
+            { KeyCode.V, Key_V },
+            { KeyCode.Space, Key_Space },
+            { KeyCode.UpArrow, Key_UpArrow },
+            { KeyCode.DownArrow, Key_DownArrow },
+            { KeyCode.LeftArrow, Key_LeftArrow },
+            { KeyCode.RightArrow, Key_RightArrow },
+        };
 
     }
     private void KeyDown_Q() {  }
@@ -66,16 +116,16 @@ public class allKeyInputDelegate : MonoBehaviour
     private void KeyDown_A() { player.Skill(1); }
     private void KeyDown_S() { player.Skill(2); }
     private void KeyDown_D() { }
-    private void KeyDown_F() { }
+    private void KeyDown_F() { Gate.NextScene(Gate.NextSceneName); }
     private void KeyDown_Z() { player.Dash(); }
-    private void KeyDown_X() { player.Melee_Attack(); }
+    private void KeyDown_X() {  }
     private void KeyDown_C() { player.Jump(); }
     private void KeyDown_V() { }
     private void KeyDown_Space() { }
     private void KeyDown_UpArrow() { }
     private void KeyDown_DownArrow() { }
-    private void KeyDown_LeftArrow() { player.Move_Left(); }
-    private void KeyDown_RightArrow() { player.Move_Right(); }
+    private void KeyDown_LeftArrow() {  }
+    private void KeyDown_RightArrow() {  }
     
     private void KeyUp_Q() { }
     private void KeyUp_W() { }
@@ -94,6 +144,24 @@ public class allKeyInputDelegate : MonoBehaviour
     private void KeyUp_DownArrow() {  }
     private void KeyUp_LeftArrow() { player.Move_Stop(); }
     private void KeyUp_RightArrow() { player.Move_Stop(); }
+    
+    private void Key_Q() { }
+    private void Key_W() { }
+    private void Key_E() { }
+    private void Key_R() { }
+    private void Key_A() { }
+    private void Key_S() { }
+    private void Key_D() { }
+    private void Key_F() { }
+    private void Key_Z() { }
+    private void Key_X() {player.Melee_Attack(); }
+    private void Key_C() { }
+    private void Key_V() { }
+    private void Key_Space() { }
+    private void Key_UpArrow() { }
+    private void Key_DownArrow() { }
+    private void Key_LeftArrow() {player.Move_Left(); }
+    private void Key_RightArrow() {player.Move_Right(); }
 
 
     // Update is called once per frame
@@ -102,6 +170,13 @@ public class allKeyInputDelegate : MonoBehaviour
         if (Input.anyKey)
         {
             foreach (var dic in keyDownDictionary)
+            {
+                if (Input.GetKeyDown(dic.Key))
+                {
+                    dic.Value();
+                }
+            }
+            foreach (var dic in keyDictionary)
             {
                 if (Input.GetKey(dic.Key))
                 {

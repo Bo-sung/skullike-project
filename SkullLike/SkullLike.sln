@@ -1,7 +1,6 @@
-﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkullLike", "Assembly-CSharp.csproj", "{EB6FEAE4-8A4A-9393-DF27-23ED05700750}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp", "Assembly-CSharp.csproj", "{EB6FEAE4-8A4A-9393-DF27-23ED05700750}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

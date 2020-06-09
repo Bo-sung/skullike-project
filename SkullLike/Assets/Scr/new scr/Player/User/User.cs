@@ -1,137 +1,94 @@
-﻿using MyData.PlayerScr;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace PlayerScr
 {
-    public class User : MonoBehaviour, IUser
+    public class User : Player,IUser
     {
-        [Header("Effects")]
-        public List<GameObject> effectList;
 
-        private void Set_Ani()
+        [Header("User - Only")]
+        public float DashRange;
+        public int DashTime = 2;
+        public override void Initiallize()
         {
-            if (ani.GetInteger("Sta") != (int)state.Work)
-            {
-                ani.SetInteger("Sta", (int)state.Work);
-                ani.Update(1);
-            }
-            if (ani.GetInteger("Mov") != (int)state.Standing)
-            {
-                ani.SetInteger("Mov", (int)state.Standing);
-                ani.Update(1);
-            }
-        }
-        public void Set_Ani(Animator _ani)//애니메이션 변경용.
-        {
-            ani.Update(1);
-        }
-        public void Set_Ani(Animator _ani, Mov _Move)//애니메이션 변경용.
-        {
-            if (_ani.GetInteger("Mov") != (int)_Move)
-            {
-                _ani.SetInteger("Mov", (int)_Move);
-                ani.Update(1);
-            }
-        }
-        public void Set_Ani(Animator _ani, Sta _State)//애니메이션 변경용.
-        {
-            if (_ani.GetInteger("Sta") != (int)_State)
-            {
-                _ani.SetInteger("Sta", (int)_State);
-                ani.Update(1);
-            }
-        }
-        public void Set_Ani(Animator _ani, Mov _Move, Sta _State)//애니메이션 변경용.
-        {//에니메이션 변환과정에서 같은값을 입력받을시 애니메이션이 반복이 되어 중간에 갭이 생김. 중복되지 않도록해주어야함
-            if (_ani.GetInteger("Sta") != (int)_State)
-            {
-                _ani.SetInteger("Sta", (int)_State);
-                ani.Update(1);
-            }
-            if (_ani.GetInteger("Mov") != (int)_Move)
-            {
-                _ani.SetInteger("Mov", (int)_Move);
-                ani.Update(1);
-            }
-        }
-        [Header("Player - Status")]
-        public State state;     //행동상태
-        public Status stat;     //스텟
-        private bool IsDownJumpEnable;
-        public Inventory inventory; //인벤토리
-        public GameObject meleeAttackCtr;   //근거리 공격용
-
-        [HideInInspector] public Rigidbody2D rb;
-        [HideInInspector] public Animator ani;
-        [HideInInspector] public Renderer rdr;
-        void Start()
-        {
-            rb = GetComponent<Rigidbody2D>();
-            ani = GetComponent<Animator>();
-            Set_Ani(ani, Mov.Stand, Sta.idle);
-            state.Work = Sta.idle;
-            state.Standing = Mov.Stand;
-            attack_Enable = true;
-        }
-        public bool attack_Enable;
-
-        public void Skill(int _skillNum)
-        {
-
+            base.Initiallize();
         }
 
-        public void Melee_Attack()
+        public override void Move(Dir _dir)
         {
-            if(attack_Enable)
+            if ((state.work == Sta.Attack && state.standing == Mov.Jump) || (state.work != Sta.Attack && state.work != Sta.Skill))
             {
-                attack_Enable = false;
-                state.Work = Sta.Attack;
-                Attack_info info = new Attack_info();
-                info.ATk = stat.power;
-                info.effect = Effects.normal;
-                info.Attack_Speed = stat.attack_Speed;
-                info.Attack_Range = stat.attack_Range;
-                Attack(meleeAttackCtr, info);
-                Move(state.Dir, 0.1f);
-                StartCoroutine(WaitForAttack());
+                base.Move(_dir);
+                if (state.standing != Mov.Jump)
+                    state.work = Sta.Move;
             }
         }
-        IEnumerator WaitForAttack()
-        {
-            yield return new WaitForSeconds(stat.attack_Speed);
-            state.Work = Sta.idle;
-            attack_Enable = true;
-        }
 
-        public void Attack(GameObject _Magazine, Attack_info _Atk_Info)    //상대방에게 공격이 성공할시 호출할 함수
-        {
-            _Magazine.SendMessage("Fire", _Atk_Info);
-        }
-        public void Attacked(Attack_info _Atk_Info) //피해를 입을시 호출될 함수
-        {
-            stat.HP = stat.HP - (_Atk_Info.ATk - stat.DEF);
-        }
+        
+        
+        
         public void Dash()
         {
-            switch (state.Dir)
+            if (DashTime > 0)
             {
-                case Dir.Left:
+                //레이케스트로 벽 관통해서 안지나가도록 검사후 대쉬하도록 추가할것. 그리고 대쉬 시행시 카메라에 메시지를 보내 대기하도록 추가할것
+                switch (state.dir)
+                {
+                    case Dir.Left:
                     {
-                        transform.Translate(Vector2.left * stat.speed * 0.125f);
+                        CameraCtr.Instance.CamWait(0.125f);
+                        transform.Translate(DashRange * 0.125f * Vector2.left);
+                        DashTime--;
                     }
-                    break;
-                case Dir.Right:
+                        break;
+                    case Dir.Right:
                     {
-                        transform.Translate(Vector2.right * stat.speed * 0.125f);
+                        CameraCtr.Instance.CamWait(0.125f);
+                        transform.Translate(DashRange * 0.125f * Vector2.right);
+                        DashTime--;
                     }
-                    break;
+                        break;
+                }
+            }
+            else
+            {
+                DashTime = 2;
             }
         }
-        public void Jump()  //점프 입력시 호출될 함수
+        public void Dash(Vector3 _position)
         {
-            if (state.Standing != Mov.Jump)
+            if (DashTime > 0)
+            {
+                transform.position = _position;
+                DashTime--;
+            }
+            else
+            {
+                DashTime = 2;
+            }
+        }
+        
+        public void DownJump()    //웅크리기 시행시 호출될 함수
+        {
+            state.standing = Mov.Crouch;
+            state.work = Sta.Idle;
+            Set_Ani();
+            
+            GetComponent<Collider2D>().isTrigger = true;
+            StartCoroutine(WaitforDownJump());
+        }
+        IEnumerator WaitforDownJump()
+        {
+            yield return new WaitForSeconds(0.35f);
+            GetComponent<Collider2D>().isTrigger = false;
+        }
+        private bool IsDownJumpEnable;
+        public int JumpCount;
+        public void Jump()
+        {
+            if (JumpCount > 0)
             {
                 if(Input.GetKey(KeyCode.DownArrow) && IsDownJumpEnable)
                 {
@@ -139,155 +96,73 @@ namespace PlayerScr
                 }
                 else
                 {
-                    state.Standing = Mov.Jump;
-                    state.Work = Sta.idle;
+                    state.standing = Mov.Jump;
+                    state.work = Sta.Idle;
                     Set_Ani();
                     rb.velocity = new Vector2(0, stat.jump);
+                    JumpCount = JumpCount - 1;
                 }
-            }            
+            }       
         }
-        public void DownJump()    //웅크리기 시행시 호출될 함수
+
+        private RaycastHit _raycastHit;
+
+        public override void Set_Update()
         {
-            state.Standing = Mov.Crouch;
-            state.Work = Sta.idle;
-            Set_Ani();
-            GetComponent<Collider2D>().isTrigger = true;
-            StartCoroutine(WaitforDownJump());
-        }
-        IEnumerator WaitforDownJump()
-        {
-            yield return new WaitForSeconds(0.25f);
-            GetComponent<Collider2D>().isTrigger = false;
-        }
-        public void Move(Dir _dir)
-        {
-            if (state.Work == Sta.Attack && state.Standing == Mov.Jump)
+            base.Set_Update();
+            if (state.standing == Mov.Jump)
             {
-                Vector3 dirVec3 = new Vector3();
-                Vector3 scale = transform.localScale;
-                switch (_dir)
+                //Debug.DrawRay(transform.position,Vector3.down,Color.black,1000);
+                Debug.DrawLine(transform.position, Vector3.down * stat.jump + transform.position, Color.red,1000f);
+                if (Physics.Raycast(transform.position, Vector3.down, out _raycastHit, 1000f,1<<LayerMask.NameToLayer("Default")))
                 {
-                    case Dir.Left:
-                        {
-                            state.Dir = Dir.Left;
-                            scale.x = -Mathf.Abs(scale.x);
-                            dirVec3 = Vector3.left;
-                        }
-                        break;
-                    case Dir.Right:
-                        {
-                            state.Dir = Dir.Right;
-                            scale.x = Mathf.Abs(scale.x);
-                            dirVec3 = Vector3.right;
-                        }
-                        break;
+                    if (_raycastHit.transform.CompareTag("GROUND"))
+                    {
+                        state.work = Sta.Idle;
+                        state.standing = Mov.Stand;
+                        IsDownJumpEnable = true;
+                        JumpCount = 2;
+                    }
+                
                 }
-                transform.localScale = scale;
-                transform.Translate(dirVec3 * stat.speed * Time.deltaTime);
-            }
-            else if(state.Work != Sta.Attack)
-            {
-                Vector3 dirVec3 = new Vector3();
-                Vector3 scale = transform.localScale;
-                switch (_dir)
-                {
-                    case Dir.Left:
-                        {
-                            state.Dir = Dir.Left;
-                            scale.x = -Mathf.Abs(scale.x);
-                            dirVec3 = Vector3.left;
-                        }
-                        break;
-                    case Dir.Right:
-                        {
-                            state.Dir = Dir.Right;
-                            scale.x = Mathf.Abs(scale.x);
-                            dirVec3 = Vector3.right;
-                        }
-                        break;
-                }
-                transform.localScale = scale;
-                transform.Translate(dirVec3 * stat.speed * Time.deltaTime);
-                if (state.Standing != Mov.Jump)
-                    state.Work = Sta.Move;
             }
         }
-        IEnumerator LoopForMove(Dir _dir, float _time)
+
+        public override void Set_LateUpdate()
         {
-            while(_time > 0.0f)
-            {
-                Move(_dir);
-                yield return new WaitForSeconds(_time);
-                _time -= 0.05f;
-            }
-        }
-        float timeForMov;
-        public void Move(Dir _dir,float _time)
-        {
-            timeForMov = Time.time;
-            StartCoroutine(LoopForMove(_dir,_time));
-        }
-        public void Move_Right()    //우측 이동시 호출될 함수
-        {
-            Move(Dir.Right);
-        }
-        public void Move_Left() //좌측 이동시 호출될 함수
-        {
-            Move(Dir.Left);
-        }
-        public void Move_Stop()
-        {
-            state.Work = Sta.idle;
-        }
-        public void HangJump()
-        {
-            //Jump();
-            if (state.Standing != Mov.Jump)
-            {
-                state.Work = Sta.idle;
-                state.Standing = Mov.Hang;
-            }
-        }
-        private void Update()
-        {
-            Set_Ani(ani, state.Standing, state.Work);
-        }
-        private void LateUpdate()
-        {
+            base.Set_LateUpdate();
             if(Input.GetKeyUp(KeyCode.LeftArrow) || Input.GetKeyUp(KeyCode.RightArrow))
             {
-                if(state.Work != Sta.Attack)
-                    state.Work = Sta.idle;
+                if(state.work != Sta.Attack)
+                    state.work = Sta.Idle;
             }
             if (state.death == true)
             {
-                state.Work = Sta.Death;
-                state.Standing = Mov.Hang;
+                state.work = Sta.Death;
             }
-            Set_Ani(ani, state.Standing, state.Work);
+            Set_Ani(ani, state.standing, state.work);
         }
 
-        public void OnCollisionEnter2D(Collision2D _col)
+        public override  void OnCollisionEnter2D(Collision2D _col)
         {
-            if (_col.transform.tag == "GROUND")
+            base.OnCollisionEnter2D(_col);
+            if (_col.transform.tag == "GROUND" && _col.transform.name == "surface")
             {                
-                if (state.Standing == Mov.Jump || state.Standing == Mov.Hang)
-                {
-                    state.Work = Sta.idle;
-                    state.Standing = Mov.Stand;
-                }
+                
             }
         }
         public void OnCollisionStay2D(Collision2D _col)
         {
-            if(_col.transform.tag == "GROUND" && _col.transform.name == "halfGround")
+            base.OnCollisionStay2D(_col);
+            if(_col.transform.tag == "GROUND" && _col.transform.name == "surface")
             {
-                IsDownJumpEnable = true;
+                
             }
         }
         public void OnCollisionExit2D(Collision2D _col)
         {
-            if (_col.transform.tag == "GROUND" && _col.transform.name == "halfGround")
+            base.OnCollisionExit2D(_col);
+            if (_col.transform.tag == "GROUND" && _col.transform.name == "surface")
             {
                 IsDownJumpEnable = false;
             }
