@@ -12,7 +12,7 @@
 
 시스템
 
-    키 입력(진)
+    키 입력(진) allKeyInputDelegate.cs
     맵(진)
       씬 전환 사용(완) OR 한 씬 내에서 여러 지점으로 순간이동하는 식으로 구현(미)
      UI(전체 미)
@@ -69,31 +69,31 @@
 
 기본 캐릭터(완)
 
-    기본형 (완)
-      좌우 이동
-      스텟
-      근접공격
-      각종 에니메이션 컨트롤.
+    기본형 (완) PlayerScr.Player.cs     
+      좌우 이동 Move(Dir), Move_Left(), Move_Right(), Move(Dir,Time), Move(Dir,Time,Speed)
+      스텟 stat
+      근접공격 Melee_Attack()
+      각종 에니메이션 컨트롤. Set_Ani()
       
-    유저 전용(완)
-      대쉬
-      점프
-      스킬1
-      스킬2
+    유저 전용(완) Player.User.cs
+      대쉬 Dash()
+      점프 Jump()
+      아래점프 DownJump()
+      스킬 Skill(SkillNum)
+      교체스킬 ChangeSkull()
       
 유저 캐릭터 
 
-    리틀본 (완)
+    리틀본 (완)  LittleBoneCtr.cs , LittleBoneHead.cs
       스킬1 : 머리 던지기 (완)
       스킬2 : 던져진 머리 기준으로 텔레포트 (완)
       교체스킬 : 직진하면서 회전공격 (완)
       
 몬스터
     
-        기본 몬스터 : 기본 캐릭터 기본형 상속받아 확장.
-            (재구성중)
-            랜덤 움직임(완)
-            유저 인식시 따라옴(진) @@@
+        기본 몬스터 : 기본 캐릭터 기본형 상속받아 확장. PlayerScr.Enemy.cs
+            랜덤 움직임(완) RandMov()
+            유저 인식시 따라옴(완) FollowPlayer()
         
         몬스터 목록
             나무 계열(미)
